@@ -1,6 +1,6 @@
 {
   "name": "airdcpp-pumba-search-sites",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extension for adding configurable context menu items that will perform web searches for files/directories",
   "license": "MIT",
   "author": {
