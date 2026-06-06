@@ -1,20 +1,20 @@
 {
-  "name": "airdcpp-search-sites",
-  "version": "1.2.0",
+  "name": "airdcpp-pumba-search-sites",
+  "version": "1.0.0",
   "description": "Extension for adding configurable context menu items that will perform web searches for files/directories",
   "license": "MIT",
   "author": {
-    "name": "maksis"
+    "name": "pumba"
   },
   "keywords": [
     "airdcpp",
     "airdcpp-extensions",
     "airdcpp-extensions-public"
   ],
-  "bugs": "https://github.com/maksis/airdcpp-search-sites/issues/",
+  "bugs": "https://github.com/pumbinha/airdcpp-pumba-search-sites/issues/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maksis/airdcpp-search-sites/"
+    "url": "https://github.com/pumbinha/airdcpp-pumba-search-sites/"
   },
   "scripts": {
     "build": "npm run clean && cross-env NODE_ENV=production webpack",
