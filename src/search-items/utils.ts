@@ -11,6 +11,9 @@ const yearReg = /((\[)?((19[0-9]{2})|(20[0-9]{2}))|(s[0-9]([0-9])?(e|d)[0-9]([0-
 export const cleanTitle = (searchTerm: string) => {
   let ret = searchTerm.toLocaleLowerCase();
 
+  // Remove bracketed/parenthesized release tags, e.g. [BDRip 1080p x264][GrupoHDS]
+  ret = ret.replace(/[\[({][^\])}]*[\])}]/g, ' ');
+
   // Remove group name
   {
     const pos = ret.lastIndexOf('-');
@@ -39,8 +42,8 @@ export const cleanTitle = (searchTerm: string) => {
     ret = ret.replace(` ${extraWord} `, ' ');
   }
 
-  //trim spaces from the end
-  return ret.trim();
+  // Collapse repeated whitespace and trim
+  return ret.replace(/\s+/g, ' ').trim();
 }
 
 
