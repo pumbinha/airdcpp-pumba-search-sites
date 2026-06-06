@@ -16,8 +16,20 @@ describe('cleanTitle', () => {
       .toBe('ice age la edad de hielo');
   });
 
-  test('handles scene-style dash group and year cut', () => {
-    expect(cleanTitle('Some.Movie.2019.1080p.BluRay.x264-GRP')).toBe('some movie');
+  test('strips scene tags and group but keeps the bare year', () => {
+    expect(cleanTitle('Some.Movie.2019.1080p.BluRay.x264-GRP')).toBe('some movie 2019');
+  });
+
+  test('keeps a bare year that is the title (parenthesized year is dropped)', () => {
+    expect(cleanTitle('2012 (2009) [BDRip 1080p x265][ES]')).toBe('2012');
+  });
+
+  test('keeps a year that is part of the title', () => {
+    expect(cleanTitle('Blade Runner 2049 (2017) [1080p]')).toBe('blade runner 2049');
+  });
+
+  test('cuts at an episode/season marker', () => {
+    expect(cleanTitle('Some.Show.S02E04.1080p.x264-GRP')).toBe('some show');
   });
 
   test('keeps the title when a spaced dash is a separator', () => {

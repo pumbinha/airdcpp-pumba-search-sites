@@ -6,7 +6,9 @@ const extrawords = [
   'ws', 'int' 
 ];
 
-const yearReg = /((\[)?((19[0-9]{2})|(20[0-9]{2}))|(s[0-9]([0-9])?(e|d)[0-9]([0-9])?)|(Season(\.)[0-9]([0-9])?))/g;
+// Episode/season markers are unambiguous release boundaries (a bare year is not:
+// it may be the title itself, e.g. "2012" or "Blade Runner 2049")
+const episodeReg = /(s[0-9][0-9]?(e|d)[0-9][0-9]?)|(season[.\s]?[0-9][0-9]?)/gi;
 
 export const cleanTitle = (searchTerm: string) => {
   let ret = searchTerm.toLocaleLowerCase();
@@ -43,10 +45,9 @@ export const cleanTitle = (searchTerm: string) => {
   ret = ret.replace(/\.|_/g, ' ');
 
 
-  // Remove words after year/episode
-  // Find the last match as also the name may contain a year
+  // Remove words after an episode/season marker (bare years are kept as title)
   {
-    const match = ret.match(yearReg);
+    const match = ret.match(episodeReg);
     if (match) {
       const lastMatch = match.pop()!;
       ret = ret.substring(0, ret.lastIndexOf(lastMatch) - 1);
