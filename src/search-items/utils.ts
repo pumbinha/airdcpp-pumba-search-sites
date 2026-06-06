@@ -7,7 +7,7 @@ const extrawords = [
 ];
 
 // Episode/season markers are unambiguous release boundaries (a bare year is not:
-// it may be the title itself, e.g. "2012" or "Blade Runner 2049")
+// it may be the title itself, e.g. a title that is a number or ends with one)
 const episodeReg = /(s[0-9][0-9]?(e|d)[0-9][0-9]?)|(season[.\s]?[0-9][0-9]?)/gi;
 
 export const cleanTitle = (searchTerm: string) => {
@@ -24,11 +24,11 @@ export const cleanTitle = (searchTerm: string) => {
   // Remove bracketed/parenthesized release tags, e.g. (2002) [1080p Blu-Ray x264]
   ret = ret.replace(/[\[({][^\])}]*[\])}]/g, ' ');
 
-  // A dash surrounded by spaces is a title separator ("007 - El mundo"), not a group
+  // A dash surrounded by spaces is a title separator ("123 - Some Title"), not a group
   ret = ret.replace(/\s+-\s+/g, ' ');
 
   // Remove the trailing scene group name (e.g. "...x264-GROUP"), but keep dashes
-  // that are part of a word ("Spider-Man") by requiring a release tag before the dash
+  // that are part of a word ("Foo-Bar") by requiring a release tag before the dash
   {
     const pos = ret.lastIndexOf('-');
     if (pos > 0 && pos < ret.length - 1) {
