@@ -11,7 +11,15 @@ const yearReg = /((\[)?((19[0-9]{2})|(20[0-9]{2}))|(s[0-9]([0-9])?(e|d)[0-9]([0-
 export const cleanTitle = (searchTerm: string) => {
   let ret = searchTerm.toLocaleLowerCase();
 
-  // Remove bracketed/parenthesized release tags, e.g. [BDRip 1080p x264][GrupoHDS]
+  // Drop everything after the last closing bracket (release group, "by X", etc.)
+  {
+    const lastClose = Math.max(ret.lastIndexOf(']'), ret.lastIndexOf(')'), ret.lastIndexOf('}'));
+    if (lastClose !== -1) {
+      ret = ret.substring(0, lastClose + 1);
+    }
+  }
+
+  // Remove bracketed/parenthesized release tags, e.g. (2002) [1080p Blu-Ray x264]
   ret = ret.replace(/[\[({][^\])}]*[\])}]/g, ' ');
 
   // Remove group name

@@ -11,6 +11,11 @@ describe('cleanTitle', () => {
     expect(cleanTitle('Title (2004) [1080p]')).toBe('title');
   });
 
+  test('drops trailing "by GROUP" after the last closing bracket', () => {
+    expect(cleanTitle('Ice Age. La Edad de Hielo (2002) [1080p Blu-Ray x264] by CtrlHD'))
+      .toBe('ice age la edad de hielo');
+  });
+
   test('handles scene-style dash group and year cut', () => {
     expect(cleanTitle('Some.Movie.2019.1080p.BluRay.x264-GRP')).toBe('some movie');
   });
