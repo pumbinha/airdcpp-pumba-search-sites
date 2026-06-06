@@ -38,6 +38,17 @@ export const SettingDefinitions = [
         default_value: true,
         type: 'boolean',
       }, {
+        key: 'source',
+        title: 'Search term source',
+        default_value: 'auto',
+        type: 'string',
+        help: 'Which part of a selected file to use as the search term. "Automatic" uses the file name for loose files and the release directory for grouped files (e.g. files inside a Sample/Subs folder).',
+        options: [
+          { id: 'auto', name: 'Automatic (file name, or release directory)' },
+          { id: 'file', name: 'File name' },
+          { id: 'directory', name: 'Directory name' },
+        ],
+      }, {
         key: 'url',
         title: 'URL',
         default_value: '',

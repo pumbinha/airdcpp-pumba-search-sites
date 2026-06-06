@@ -66,7 +66,24 @@ export const getFilePath = (fullPath: string): string => {
   return fullPath.replace(/[^\\\/]*$/, '');
 };
 
+const fileExtensionReg = /\.[0-9a-z]{1,4}$/i;
+
+export const removeFileExtension = (name: string): string => {
+  return name.replace(fileExtensionReg, '');
+};
+
+// Last path segment (file or directory name) without any trailing extension
+export const getFileName = (fullPath: string): string => {
+  const name = fullPath.replace(/[\\\/]+$/, '').replace(/^.*[\\\/]/, '');
+  return removeFileExtension(name);
+};
+
 const subDirReg = /^(((DVD|CD|DIS(K|C)).?([0-9](0-9)?))|Sample|Cover(s)?|.{0,5}Sub(s)?)$/i;
+
+// A file/subdirectory name that carries no meaningful title (sample, cd1, subs...)
+export const isJunkName = (name: string): boolean => {
+  return name.search(subDirReg) !== -1;
+};
 
 // Parse the last meaningful name from a directory path
 export const getDirectoryPathName = (directoryPath: string, separator: string) => {

@@ -5,7 +5,7 @@ import {
   getMenuItems,
 } from 'src/search-items';
 
-import { getMockContext } from './mock-context';
+import { getMockContext, MockContextOptions } from './mock-context';
 import { ContextMenuItem } from 'airdcpp-apisocket';
 
 
@@ -39,9 +39,10 @@ export const itemUrlParser = <IdT, EntityIdT>(
 
 export const getUrls = async <IdT, EntityIdT>(
   infoGetter: ItemInfoGetter<IdT, EntityIdT>,
-  itemParser: ReturnType<typeof itemUrlParser>
+  itemParser: ReturnType<typeof itemUrlParser>,
+  options: Partial<MockContextOptions> = {}
 ) => {
-  const context = getMockContext();
+  const context = getMockContext(options);
   const items = getMenuItems(context, infoGetter);
 
   const urls = await Promise.all(items.map(itemParser));

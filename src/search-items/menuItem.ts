@@ -16,7 +16,7 @@ export const getMenuItems = <IdT, EntityIdT>(
 ): ContextMenuItem<IdT, EntityIdT>[] => {
   const { api, logger } = context;
   return context.getSearchItems().map(item => {
-    const { name, icon } = item;
+    const { name, icon, source } = item;
     const ret: ContextMenuItem<any, any> = {
       id: name,
       title: name,
@@ -28,7 +28,7 @@ export const getMenuItems = <IdT, EntityIdT>(
 
         // We could do some caching so that the search terms won't be fetched for every context menu item separately...
         try {
-          searchTerms = await searchTermsGetter(context, selectedIds, entityId);
+          searchTerms = await searchTermsGetter(context, selectedIds, entityId, source || 'auto');
         } catch (e) {
           logger.error(`Failed to get item entities: ${e.message}`);
           api.postEvent(`Failed to get item entities: ${e.message}`, SeverityEnum.NOTIFY);

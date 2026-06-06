@@ -19,7 +19,6 @@ const MOCK_MESSAGE_HIGHLIGHT_TEXT: MessageHighlight = {
 
 export const getMockApi = (customHandlers: Partial<APIType> = {}): APIType => {
   const api = {
-    ...customHandlers,
     postEvent: () => {
       return Promise.resolve();
     },
@@ -56,6 +55,8 @@ export const getMockApi = (customHandlers: Partial<APIType> = {}): APIType => {
     getPrivateChatMessageHighlights: () => {
       return Promise.resolve(MOCK_MESSAGE_HIGHLIGHT_TEXT);
     },
+    // Custom handlers last so callers can override individual endpoints
+    ...customHandlers,
   } as Partial<APIType>;
 
   return api as APIType;
@@ -77,6 +78,7 @@ export const MockSearchItems: SearchItem[] = [
 
 export interface MockContextOptions {
   api?: Partial<APIType>,
+  searchItems?: SearchItem[],
 }
 
 export const getMockContext = (options: Partial<MockContextOptions> = {}) => {
@@ -88,7 +90,7 @@ export const getMockContext = (options: Partial<MockContextOptions> = {}) => {
         path_separator: '\\', // Force to Windows separator to make it different from the ADC path separator
       }
     },
-    getSearchItems: () => MockSearchItems,
+    getSearchItems: () => options.searchItems ?? MockSearchItems,
   };
 
   return context;
