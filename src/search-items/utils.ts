@@ -22,11 +22,20 @@ export const cleanTitle = (searchTerm: string) => {
   // Remove bracketed/parenthesized release tags, e.g. (2002) [1080p Blu-Ray x264]
   ret = ret.replace(/[\[({][^\])}]*[\])}]/g, ' ');
 
-  // Remove group name
+  // A dash surrounded by spaces is a title separator ("007 - El mundo"), not a group
+  ret = ret.replace(/\s+-\s+/g, ' ');
+
+  // Remove the trailing scene group name (e.g. "...x264-GROUP"), but keep dashes
+  // that are part of a word ("Spider-Man") by requiring a release tag before the dash
   {
     const pos = ret.lastIndexOf('-');
-    if (pos !== -1) {
-      ret = ret.substring(0, pos);
+    if (pos > 0 && pos < ret.length - 1) {
+      const beforeToken = ret.substring(0, pos).split(/[\s.]/).pop() || '';
+      const afterToken = ret.substring(pos + 1).trim();
+      const isSceneTag = /\d/.test(beforeToken) || extrawords.includes(beforeToken);
+      if (isSceneTag && afterToken.length > 0 && !/\s/.test(afterToken)) {
+        ret = ret.substring(0, pos);
+      }
     }
   }
 
